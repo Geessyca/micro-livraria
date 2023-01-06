@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service FavoriteService {
+    rpc GetFavoriteRate(FavoritePayload) returns (FavoriteResponse) {}
+}
+
+message FavoritePayload {
+    int32 id = 1;
+}
+
+message ProductResponse {
+    int32 id = 1;
+    string name = 2;
+}
+
+message FavoriteResponse {
+    repeated ProductResponse products = 1;
+}

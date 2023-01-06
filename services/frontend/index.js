@@ -28,11 +28,23 @@ function newBook(book) {
                             <a class="button button-shipping is-info" data-id="${book.id}"> Calcular Frete </a>
                         </div>
                     </div>
+                    <a class="button button-fav" data-id="${book.id}"> Adicionar como favorito </a>
                     <button class="button button-buy is-success is-fullwidth">Comprar</button>
                 </div>
             </div>
         </div>`;
     return div;
+}
+
+function addFavorite(id) {
+    fetch('http://localhost:3000/favorite/' + id)
+        .then((data) => {
+            swal('Livro adicionado com favorito', '', 'success');
+        })
+        .catch((err) => {
+            swal('Erro', 'Erro ao adicionar como favorito', 'error');
+            console.error(err);
+        });
 }
 
 function calculateShipping(id, cep) {
@@ -68,6 +80,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     books.appendChild(newBook(book));
                 });
 
+                document.querySelectorAll('.button-fav').forEach((btn) => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.target.getAttribute('data-id');
+                        addFavorite(id);
+                    });
+                });
+
                 document.querySelectorAll('.button-shipping').forEach((btn) => {
                     btn.addEventListener('click', (e) => {
                         const id = e.target.getAttribute('data-id');
@@ -75,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         calculateShipping(id, cep);
                     });
                 });
-
                 document.querySelectorAll('.button-buy').forEach((btn) => {
                     btn.addEventListener('click', (e) => {
                         swal('Compra de livro', 'Sua compra foi realizada com sucesso', 'success');

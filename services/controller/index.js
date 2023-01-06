@@ -1,6 +1,7 @@
 const express = require('express');
 const shipping = require('./shipping');
 const inventory = require('./inventory');
+const favorite = require('./favorite');
 const cors = require('cors');
 
 const app = express();
@@ -54,6 +55,17 @@ app.get('/product/:id', (req, res, next) => {
             // Caso contrário, retorna resultado do
             // microsserviço (um arquivo JSON) com os dados
             // do produto pesquisado
+            res.json(product);
+        }
+    });
+});
+
+app.get('/favorite/:id', (req, res, next) => {
+    favorite.GetFavoriteRate({ id: req.params.id }, (err, product) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send({ error: 'something failed :(' });
+        } else {
             res.json(product);
         }
     });
