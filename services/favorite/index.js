@@ -13,8 +13,22 @@ const favoriteProto = grpc.loadPackageDefinition(packageDefinition);
 
 const server = new grpc.Server();
 
+const fs = require("fs");
+
+
+const updateFavoritos = (newItem) => {
+    const dataString = fs.readFileSync("D:/micro-livraria/services/favorite/arquivo.json", 'utf-8');
+    const dataObj = JSON.parse(dataString);
+    if (!dataObj.products_id.includes(newItem)){
+    dataObj.products_id.push(newItem)}
+    else { dataObj.products_id.pop(newItem) }
+    const newDataString = JSON.stringify(dataObj, null,2);
+    fs.writeFileSync("D:/micro-livraria/services/favorite/arquivo.json", newDataString, 'utf-8')
+}
+
 server.addService(favoriteProto.FavoriteService.service, {
     GetFavoriteRate: (payload, callback) => {
+        updateFavoritos(payload.request.id)
         callback(
             null,
             products.find((product) => product.id == payload.request.id)
