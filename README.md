@@ -1,3 +1,8 @@
+# Microsserviço adicionado:
+Adição do livro a uma lista de favorito pelo id 
+
+
+
 # Micro-Livraria: Exemplo Prático de Microsserviços
 
 Este repositório contem um exemplo simples de uma livraria virtual construída usando uma **arquitetura de microsserviços**.
